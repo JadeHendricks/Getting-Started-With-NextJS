@@ -1,14 +1,22 @@
-import Link from "next/link";
-
-export default function About() {
+export default function About(props) {
     return (
-        <>
-            <h1>About Page</h1>
-            <p>
-                Lorem ipsum dolor, sit amet consectetur adipisicing elit. 
-                Ducimus, ipsam. Assumenda suscipit nemo debitis ut ducimus blanditiis nihil aliquid saepe.
-            </p>
-            <Link href="/">Visit home page</Link>
-        </>
+      <>
+        <h2>About Us</h2>
+        <p>Welcome to this amazing about page. Lorem ipsum dolor, sit amet consectetur adipisicing elit. Porro dolore officiis atque voluptas, quas, repellendus cum, magnam a alias unde reiciendis voluptates aliquam maxime laborum? Quae omnis eius impedit et?</p>
+        <p>I have {props.repoCount} public repos on GitHub.</p>
+      </>
     )
-}
+  }
+  
+  export async function getStaticProps() {
+    const response = await fetch("https://api.github.com/users/JadeHendricks")
+    const data = await response.json()
+  
+    return {
+      props: {
+        repoCount: data.public_repos
+      },
+      revalidate: 10
+    }
+  }
+  
